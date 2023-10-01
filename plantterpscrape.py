@@ -7,7 +7,7 @@ from discord.ext import commands
 intents = discord.Intents.default()
 
 client = commands.Bot(command_prefix='$', intents=intents)
-TOKEN = "MTExNjkyMTY5Mzk4Njg4NTY5Nw.GVgtw9.8-C7xrQI_f7LelqxXeNL8FIL2EI0ZIatX8YNcw"
+TOKEN = TOKEN
 
 
 @client.event
