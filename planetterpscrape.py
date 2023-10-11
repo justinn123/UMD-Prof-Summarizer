@@ -8,7 +8,6 @@ from functions.rankProfGpa import *
 intents = discord.Intents.all()
 
 client = commands.Bot(command_prefix='$', intents=intents)
-TOKEN = "TOKEN"
 
 
 @client.event

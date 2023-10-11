@@ -33,4 +33,6 @@ def rankDep(department, level):
     for key in ranked:
         ranked_str+=(f"{counter}) {key}: {ranked[key]}\n")
         counter+=1
+    if len(ranked_str) > 2000:
+        ranked_str = ("There are too many courses to display on discord.")
     return(ranked_str)
