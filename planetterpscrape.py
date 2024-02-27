@@ -3,8 +3,7 @@ import discord
 from discord.ext import commands
 from functions.rankCourses import rankDep
 from functions.rankProfGpa import *
-
-TOKEN = "MTExNjkyMTY5Mzk4Njg4NTY5Nw.Gz_vZB.8cYYqq3160vbDaxuiNrv8ywy4INqi0U7p1mbFI"
+from discord_token import TOKEN
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix='$', intents=intents)
