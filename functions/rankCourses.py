@@ -19,7 +19,7 @@ def rankDep(department, level):
         if(courses[x]['average_gpa']!= None):
             course_gpa.append(float('{0:.2f}'.format(courses[x]['average_gpa'])))
         else:
-            course_gpa.append(0)
+            course_gpa.append(-1)
         course_name_str = ""
         course_name_str+=(f"{courses[x]['name']} ({courses[x]['title']})")
         course_names.append(course_name_str)
@@ -31,6 +31,13 @@ def rankDep(department, level):
     ranked_str = ""
 
     for key in ranked:
-        ranked_str+=(f"{counter}) {key}: {ranked[key]}\n")
-        counter+=1
+        if (ranked[key] != -1):
+            ranked_str+=(f"{counter}) {key}: {ranked[key]}\n")
+            counter+=1
+        else:
+            ranked_str+=(f"{counter}) {key}: No Data\n")
+            counter+=1
+
+    if len(ranked_str) > 2000:
+        ranked_str = ("There are too many courses to display on discord.")
     return(ranked_str)

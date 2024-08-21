@@ -3,12 +3,10 @@ import discord
 from discord.ext import commands
 from functions.rankCourses import rankDep
 from functions.rankProfGpa import *
-
+from discord_token import TOKEN
 
 intents = discord.Intents.all()
-
 client = commands.Bot(command_prefix='$', intents=intents)
-TOKEN = "TOKEN"
 
 
 @client.event
