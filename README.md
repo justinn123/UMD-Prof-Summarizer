@@ -3,6 +3,23 @@ Discord bot that ranks UMD professors/courses based on their ratings or average 
 
 ![Screenshot 2024-08-21 161753](https://github.com/user-attachments/assets/c1efa623-6522-43d9-b2ac-a285624041a0)
 
+## Installation
+
+### Prerequisites
+- [Python]
+- [Pip]
+
+Download the script to computer
+```shell
+git clone https://github.com/justinn123/UMD-Prof-Ranker.git
+cd UMD-Prof-Ranker
+```
+
+Then download required packages for the script
+```shell
+pip install -r requirements.txt
+```
+
 ## How It's Made: 
 
 **Tech Used**: Python, Python Discord Library, Planet Terp API
