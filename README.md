@@ -21,7 +21,7 @@ Then download required packages for the script
 pip install -r requirements.txt
 ```
 
-Finally in the planetterpscrape.py file, at final line replace TOKEN with your own token
+Finally in the planetterpscrape.py file, at final line replace TOKEN with your own discord bot's token
 ```shell
 client.run("example-token12345")
 ```
