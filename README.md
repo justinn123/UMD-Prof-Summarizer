@@ -7,6 +7,7 @@ Discord bot that ranks UMD professors/courses based on their ratings or average 
 
 ### Prerequisites
 - [Python]
+- [Discord Application]
 - [Pip]
 
 Download the script to computer
@@ -18,6 +19,11 @@ cd UMD-Prof-Ranker
 Then download required packages for the script
 ```shell
 pip install -r requirements.txt
+```
+
+Finally in the planetterpscrape.py file, at final line replace TOKEN with your own token
+```shell
+client.run("example-token12345")
 ```
 
 ## How It's Made: 
