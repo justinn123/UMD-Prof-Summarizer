@@ -1,5 +1,6 @@
 import planetterp
 import discord
+import pandas as pd
 from discord.ext import commands
 from functions.rankCourses import rankDep
 from functions.rankProfGpa import *
@@ -57,13 +58,14 @@ async def getGPA(ctx, courseName, *, prof):
 @client.command()
 async def rankGPA(ctx, courseVal):
     list = rankByGPA(courseVal)
+    print(list)
     await ctx.channel.send(list)
     
 
 @client.command()
 async def rankCourses(ctx, department, level):
     list = rankDep(department, level)
-    if list != "" and list != None: 
+    if list: 
         await ctx.channel.send(f"{list}")
     else:
         await ctx.channel.send(f"There was an error")
