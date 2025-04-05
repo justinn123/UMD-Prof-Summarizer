@@ -1,26 +1,14 @@
 import planetterp
-import discord
 import pandas as pd
-from discord.ext import commands
 from functions.rankCourses import rankDep
 from functions.rankProfGpa import *
-from discord_token import TOKEN
 
-intents = discord.Intents.all()
-client = commands.Bot(command_prefix='$', intents=intents)
-
-
-@client.event
-async def on_ready():
-    print(f"{client.user} is ready")
-
-@client.command()
-async def rankProf(ctx, courseValue):
+def rankProf(courseValue):
     try:
         course = planetterp.course(name=courseValue)  
         prof_list = course["professors"]
     except:     
-        await ctx.channel.send(f"Could not find course")
+        print(f"Could not find course")
         return
     
     prof_score = []
@@ -43,31 +31,33 @@ async def rankProf(ctx, courseValue):
             ranked_str+=str(f"{counter}) {key}: {ranked[key]}")
         ranked_str+=("\n")
         counter+=1
-    await ctx.channel.send(f"{ranked_str}")
+    print(f"{ranked_str}")
 
 
-@client.command()
-async def getGPA(ctx, courseName, *, prof):
+def getGPA(courseName, prof):
     average_gpa = calcGPA(courseName, prof)
     if(average_gpa == -1):
-        await ctx.channel.send(f"No Data")
+        print(f"No Data")
         return
-    await ctx.channel.send(f"Average GPA: {average_gpa:.2f}")
+    print(f"Average GPA: {average_gpa:.2f}")
 
 
-@client.command()
-async def rankGPA(ctx, courseVal):
+def rankGPA(courseVal):
     list = rankByGPA(courseVal)
     print(list)
-    await ctx.channel.send(list)
     
 
-@client.command()
-async def rankCourses(ctx, department, level):
+def rankCourses(department, level):
     list = rankDep(department, level)
     if list: 
-        await ctx.channel.send(f"{list}")
+        print(f"{list}")
     else:
-        await ctx.channel.send(f"There was an error")
+        print(f"There was an error")
 
-client.run(TOKEN)
+
+
+def main ():
+    rankProf("CMSC433")
+    
+if __name__ == "__main__":
+    main()
