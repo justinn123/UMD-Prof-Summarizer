@@ -49,11 +49,10 @@ def rankGPA(courseVal):
 
 def rankCourses(department, level):
     list = rankDep(department, level)
-    if list: 
+    if list:
         print(f"{list}")
     else:
         print(f"There was an error")
-
 
 
 def main ():
