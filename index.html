@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMD Course & Professor AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- Header -->
+    <h1 class="text-4xl font-bold mb-4 text-center">UMD Professor & Course Insight</h1>
+    <p class="text-lg text-center mb-8 max-w-xl">
+      Ask anything about UMD professors or courses and get smart summaries — powered by AI and PlanetTerp data.
+    </p>
+
+    <!-- Search Box -->
+    <form id="query-form" class="w-full max-w-xl bg-white rounded-xl shadow-md p-6 space-y-4">
+      <input
+        type="text"
+        name="query"
+        placeholder="e.g. Summarize Tokekar CMSC421"
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        required
+      />
+      <select
+        name="mode"
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="auto">Auto Detect (Professor or Course)</option>
+        <option value="professor">Professor</option>
+        <option value="course">Course</option>
+        <option value="compare">Compare Courses</option>
+      </select>
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+      >
+        Get Summary
+      </button>
+    </form>
+
+    <!-- Suggestions -->
+    <div class="mt-6 text-center text-sm text-gray-600">
+      <p class="mb-1">Example queries:</p>
+      <ul>
+        <li>Summarize COMM107</li>
+        <li>Compare MATH140 vs STAT400</li>
+        <li>Who teaches CMSC131 best?</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

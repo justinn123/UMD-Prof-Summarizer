@@ -1,5 +1,4 @@
 import planetterp
-import pandas as pd
 from functions.rankCourses import rankDep
 from functions.rankProfGpa import *
 
