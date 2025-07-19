@@ -1,6 +1,6 @@
 import planetterp
-from functions.rankCourses import rankDep
-from functions.rankProfGpa import *
+from funcs.rankCourses import rankDep
+from funcs.rankProfGpa import *
 
 def rankProf(courseValue):
     try:

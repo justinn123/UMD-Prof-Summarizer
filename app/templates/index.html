@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMD Course & Professor AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- Header -->
+    <h1 class="text-4xl font-bold mb-4 text-center">UMD Professor & Course Insight</h1>
+    <p class="text-lg text-center mb-8 max-w-xl">
+      Ask about UMD professors and their courses and get smart summaries — powered by AI and PlanetTerp data.
+    </p>
+
+    <!-- Search Box -->
+    <form method="POST" id="query-form" class="w-full max-w-xl bg-white rounded-xl shadow-md p-6 space-y-4">
+      <input type="text" name="professor" placeholder="Enter professor name"
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+      <input type="text" name="course" placeholder="Enter course name (optional)"
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button type="submit"
+        class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+        Get Summary
+      </button>
+    </form>
+    <!-- Results Section (Still need to fix styling) -->
+    {% if summary %}
+    <div class="p-4 rounded bg-white shadow">
+      <h2 class="text-xl font-bold mb-2">Professor: {{ summary.professor }}</h2>
+      <p class="mb-4">{{ summary.summary }}</p>
+    </div>
+    {% endif %}
+</body>
+
+</html>
