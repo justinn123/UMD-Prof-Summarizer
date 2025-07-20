@@ -106,5 +106,3 @@ def generate_summary(professor_name):
     formatted = format_professor_for_llm(prof_data)
     result = chain.invoke({"info_text": formatted})
     return result
-
-print(generate_summary("Nicole Nguyen"))
