@@ -8,9 +8,8 @@ def home():
     if request.method == 'POST':
         # Handle form submission
         professor_name = request.form.get('professor')
-        course_name = request.form.get('course')
         if professor_name:
-            summary = generate_summary()
+            summary = generate_summary(professor_name)
         if not summary:
             return render_template('index.html', error="Professor not found or no reviews available.")
     return render_template('index.html', summary=summary)

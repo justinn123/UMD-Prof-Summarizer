@@ -46,7 +46,6 @@ def format_course_for_llm(course_data: dict) -> str:
 # Format professor data for LLM input
 def format_professor_for_llm(prof_data: dict) -> str:
     out = f"Professor: {prof_data['name']}\n"
-    out += f"Department: {prof_data.get('department', 'N/A')}\n"
     out += f"Average Rating: {prof_data.get('average_rating', 'N/A')}\n"
     out += f"Courses: {', '.join(prof_data.get('courses', []))}\n\n"
     out += "Top Reviews:\n"
@@ -63,11 +62,26 @@ parser = PydanticOutputParser(pydantic_object=ProfSummary)
 # Create the prompt template
 prompt = ChatPromptTemplate.from_messages([
     ("system", 
-     """You are an assistant that summarizes university course or professor reviews.
-    Your goal is to synthesize key themes in student feedback, identifying consistent patterns in teaching style, difficulty, engagement, clarity, and recurring praise or complaints.
-    Avoid quoting reviews directly — instead, distill the overall sentiment and common experiences.
-    Conclude with a clear recommendation: whether students should take this professor/course or consider alternatives, based on the feedback.\n
-     You must respond with ONLY a valid JSON object, following this Pydantic format:\n{format_instructions}"""),
+"""
+You are an assistant that summarizes university course or professor reviews.
+
+Your task is to synthesize key patterns from student feedback, focusing on:
+- Teaching style
+- Difficulty
+- Engagement
+- Clarity
+- Recurring praise or complaints
+
+Do not quote or paraphrase individual reviews. Instead, analyze the overall sentiment and highlight common themes.
+
+You must conclude with a clear recommendation: based on the reviews, should students take this professor/course, or consider alternatives?
+
+⚠️ Your response MUST be a valid JSON object that strictly follows this Pydantic schema:
+{format_instructions}
+
+⚠️ Do NOT include any extra text, explanation, markdown formatting, or commentary — return ONLY the raw JSON.
+"""
+),
     ("human", "{info_text}")
 ]).partial(format_instructions=parser.get_format_instructions())
 
