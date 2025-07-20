@@ -16,6 +16,8 @@ class ProfSummary(BaseModel):
     
     @field_validator('rating')
     def round_rating(cls, v):
+        if v is None:
+            return v
         return round(v, 2)
 
 class CourseSummary(BaseModel):
@@ -92,9 +94,17 @@ chain = prompt | llm | parser
 
 def generate_summary(professor_name):
     prof_data = planetterp.professor(name=professor_name, reviews=True)
-    if 'error' not in prof_data:
-        formatted = format_professor_for_llm(prof_data)
-        result = chain.invoke({"info_text": formatted})
-        return result
-    else:
+    if 'error' in prof_data:
         return None
+    elif prof_data['average_rating'] is None and not prof_data.get('reviews'):
+        return ProfSummary(
+            courses=prof_data.get('courses', []),
+            professor=prof_data['name'],
+            rating=-1,
+            summary="No reviews available."
+        )
+    formatted = format_professor_for_llm(prof_data)
+    result = chain.invoke({"info_text": formatted})
+    return result
+
+print(generate_summary("Nicole Nguyen"))
