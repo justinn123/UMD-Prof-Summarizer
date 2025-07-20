@@ -18,15 +18,71 @@
 
     <!-- Search Box -->
     <form method="POST" id="query-form" class="w-full max-w-xl bg-white rounded-xl shadow-md p-6 space-y-4">
-      <input type="text" name="professor" placeholder="Enter professor name"
+      <input id="professor-input" type="text" name="professor" placeholder="Enter professor name"
         class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+      <ul id="suggestions" class="bg-white shadow rounded mt-2"></ul>
+
       <input type="text" name="course" placeholder="Enter course name (not yet functional)"
-        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
       <button type="submit"
         class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">
         Get Summary
       </button>
     </form>
+<script>
+  let professors = [];
+
+  // Load JSON data from static folder
+  fetch('/static/professors.json')
+    .then(response => response.json())
+    .then(data => {
+      professors = data;
+    });
+
+  const input = document.getElementById('professor-input');
+  const suggestions = document.getElementById('suggestions');
+
+  input.addEventListener('input', () => {
+    const query = input.value.toLowerCase().trim();
+    suggestions.innerHTML = '';
+
+    if (query.length < 2) {
+      suggestions.classList.add('hidden');
+      return;
+    }
+
+    // Filter matching professor names
+    const matches = professors.filter(name => name.toLowerCase().includes(query)).slice(0, 5);
+
+    if (matches.length === 0) {
+      suggestions.classList.add('hidden');
+      return;
+    }
+
+    matches.forEach(match => {
+      const li = document.createElement('li');
+      li.textContent = match;
+      li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+
+      li.addEventListener('click', () => {
+        input.value = match;
+        suggestions.innerHTML = '';
+        suggestions.classList.add('hidden');
+      });
+
+      suggestions.appendChild(li);
+    });
+
+    suggestions.classList.remove('hidden');
+  });
+
+  // Hide suggestions if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!suggestions.contains(e.target) && e.target !== input) {
+      suggestions.classList.add('hidden');
+    }
+  });
+</script>
     <!-- Results Section (Still need to fix styling) -->
     {% if summary %}
     <div class="mt-4 w-full max-w-xl p-4 rounded-xl bg-white shadow-md">
@@ -37,7 +93,7 @@
     {% endif %}
 
     {% if error %}
-      <p class="mb-4 text-red-500">Could not find professor or course</p>
+    <p class="mb-4 text-red-500">Could not find professor or course</p>
     {% endif %}
 </body>
 
