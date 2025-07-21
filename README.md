@@ -7,15 +7,9 @@ The Planet Twerp currently supports querying insights for individual professors.
 ## Screenshots
 <img width="1917" height="899" alt="Image" src="https://github.com/user-attachments/assets/deda871c-788a-4625-8008-12e1f2080ba6" />
 
-<figure>
-    <img width="598" height="293" alt="Image" src="https://github.com/user-attachments/assets/a1f4134e-34e3-49ad-a76a-55c53b1ea087" />
-    <figcaption>Working Autocomplete:</figcaption>
-</figure>
+<img width="598" height="293" alt="Image" src="https://github.com/user-attachments/assets/a1f4134e-34e3-49ad-a76a-55c53b1ea087" />
 
-<figure>
-    <img width="602" height="342" alt="Image" src="https://github.com/user-attachments/assets/025c5eda-5ca3-4a57-a0af-ac6e94847180" />
-    <figcaption>Professor Sumamry:</figcaption>
-</figure>
+<img width="602" height="342" alt="Image" src="https://github.com/user-attachments/assets/025c5eda-5ca3-4a57-a0af-ac6e94847180" />
 
 ## Installation and Setup
 
