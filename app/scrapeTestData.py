@@ -20,31 +20,6 @@ class ProfSummary(BaseModel):
             return v
         return round(v, 2)
 
-class CourseSummary(BaseModel):
-    course: str
-    professor: str
-    rating: float
-    gpa: float
-    summary: str
-    
-    @field_validator('gpa')
-    def round_gpa(cls, v):
-        return round(v, 2)
-    
-    @field_validator('rating')
-    def round_rating(cls, v):
-        return round(v, 2)
-
-def format_course_for_llm(course_data: dict) -> str:
-    out = f"Course: {course_data['department']}{course_data['course_number']}\n"
-    out += f"Average GPA: {course_data.get('average_gpa', 'N/A')}\n"
-    out += f"Credits: {course_data.get('credits', 'N/A')}\n\n"
-    out += f"Professors: {', '.join(course_data.get('professors', []))}\n\n"
-    out += "Top Reviews:\n"
-    for review in course_data.get('reviews', [])[::-1][:10]:
-        out += f"- {review['review']}\n"
-    return out
-
 # Format professor data for LLM input
 def format_professor_for_llm(prof_data: dict) -> str:
     out = f"Professor: {prof_data['name']}\n"
@@ -91,7 +66,6 @@ You must conclude with a clear recommendation: based on the reviews, should stud
 chain = prompt | llm | parser
 
 # Fetch PlanetTerp professor data
-
 def generate_summary(professor_name):
     prof_data = planetterp.professor(name=professor_name, reviews=True)
     if 'error' in prof_data:
