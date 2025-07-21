@@ -29,7 +29,14 @@ $ python
 >>> os.urandom(12).hex()
 ```
 To get Groq API key, go to https://console.groq.com/keys
+
+After getting the required keys, add to your .env file:
+```shell
+GROQ_API_KEY=your_groq_api_key
+SECRET_KEY=your_secret_key
+```
 ### Run the container
+
 ```
 $ docker run -p 5000:5000 your-app-name
 ```
