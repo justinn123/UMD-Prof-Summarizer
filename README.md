@@ -1,5 +1,5 @@
-# UMD Professor Ranker
-Discord bot that ranks UMD professors/courses based on their ratings or average GPA
+# UMD Professor Summarizer
+Planet Twerp is a web application that summarizes and provides insight about professors at the University of Maryland. It is built with Flask, LangChain, Tailwind, and Planet Terp data.
 
 ![Screenshot 2024-08-21 161753](https://github.com/user-attachments/assets/c1efa623-6522-43d9-b2ac-a285624041a0)
 
