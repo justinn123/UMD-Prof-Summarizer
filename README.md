@@ -1,5 +1,5 @@
 # UMD Professor Summarizer
-Planet Twerp is a web application that summarizes and provides insight about professors at the University of Maryland. It is built with Flask, LangChain, Tailwind, and Planet Terp data.
+Planet Twerp is a web application that summarizes and provides insight about professors at the University of Maryland. It is built with Flask, LangChain, Tailwind, and Planet Terp data. The application currently uses Groq to run language models due to its free access, but it can easily be configured to work with other LLM providers such as OpenAI.
 
 ## Project Status
 The Planet Twerp currently supports querying insights for individual professors. The next steps include refining the query functionality to allow users to specify whether they want insights on all courses taught by a professor or only a selected subset. Future improvements will include adding functionality to identify and analyze professors who teach similar courses, as well as providing side-by-side comparisons between professors and the courses they teach.

@@ -1,5 +1,6 @@
-from flask import redirect, request, session, url_for, render_template, current_app as app
-from .scrapeTestData import generate_summary
+import json
+from flask import jsonify, redirect, request, session, url_for, render_template, current_app as app
+from .get_data import generate_summary
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -13,3 +14,17 @@ def home():
         if not summary:
             return render_template('index.html', error="Professor not found or no reviews available.")
     return render_template('index.html', summary=summary)
+
+@app.route('/autocomplete')
+def autocomplete():
+    query = request.args.get('q', '').lower()
+    matches = []
+
+    with open('app/static/professors.json') as f:
+        professors = json.load(f)
+
+    for prof in professors:
+        if query in prof.lower():
+            matches.append(prof)
+
+    return jsonify(matches[:5])

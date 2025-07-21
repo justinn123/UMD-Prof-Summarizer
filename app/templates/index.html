@@ -31,53 +31,51 @@
       </button>
     </form>
 <script>
-  let professors = [];
-
-  // Load JSON data from static folder
-  fetch('/static/professors.json')
-    .then(response => response.json())
-    .then(data => {
-      professors = data;
-    });
-
   const input = document.getElementById('professor-input');
   const suggestions = document.getElementById('suggestions');
 
   input.addEventListener('input', () => {
-    const query = input.value.toLowerCase().trim();
-    suggestions.innerHTML = '';
+    const query = input.value.trim();
 
     if (query.length < 2) {
+      suggestions.innerHTML = '';
       suggestions.classList.add('hidden');
       return;
     }
 
-    // Filter matching professor names
-    const matches = professors.filter(name => name.toLowerCase().includes(query)).slice(0, 5);
+    fetch(`/autocomplete?q=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(data => {
+        suggestions.innerHTML = '';
 
-    if (matches.length === 0) {
-      suggestions.classList.add('hidden');
-      return;
-    }
+        if (!data || data.length === 0) {
+          suggestions.classList.add('hidden');
+          return;
+        }
 
-    matches.forEach(match => {
-      const li = document.createElement('li');
-      li.textContent = match;
-      li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+        data.forEach(name => {
+          const li = document.createElement('li');
+          li.textContent = name;
+          li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
 
-      li.addEventListener('click', () => {
-        input.value = match;
+          li.addEventListener('click', () => {
+            input.value = name;
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+            input.focus();
+          });
+
+          suggestions.appendChild(li);
+        });
+
+        suggestions.classList.remove('hidden');
+      })
+      .catch(() => {
         suggestions.innerHTML = '';
         suggestions.classList.add('hidden');
       });
-
-      suggestions.appendChild(li);
-    });
-
-    suggestions.classList.remove('hidden');
   });
 
-  // Hide suggestions if clicking outside
   document.addEventListener('click', (e) => {
     if (!suggestions.contains(e.target) && e.target !== input) {
       suggestions.classList.add('hidden');
