@@ -11,7 +11,7 @@ dotenv.load_dotenv()
 
 # Define structured output schema
 class ProfSummary(BaseModel):
-    courses: list[str]
+    # courses: list[str]
     professor: str
     rating: float
     summary: str
@@ -87,14 +87,12 @@ def generate_summary(professor_name):
 def get_results(prof_data: dict) -> str:
     if not prof_data['average_rating']:
         return ProfSummary(
-            courses=prof_data.get('courses', []),
             professor=prof_data['name'],
             rating=-1,
             summary="No reviews available"
         )
     out = f"Professor: {prof_data['name']}\n"
     out += f"Average Rating: {prof_data.get('average_rating', 'N/A')}\n"
-    out += f"Courses: {', '.join(prof_data.get('courses', []))}\n\n"
     out += "Top Reviews:\n"
     for review in prof_data.get('reviews', [])[::-1][:10]:
         out += f"- {review['review']}\n"
