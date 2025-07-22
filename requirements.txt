@@ -1,5 +1,5 @@
 Flask==3.1.1
-Flask_Caching==2.3.1
+flask-caching==2.3.1
 langchain_core==0.3.70
 langchain_groq==0.3.6
 planetterp==1.0.0
