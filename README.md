@@ -14,35 +14,33 @@ The Planet Twerp currently supports querying insights for individual professors.
 ## Installation and Setup
 
 ### Clone Git Repo
-First clone the GitHub repo and install requirements.
+First clone the GitHub repo and create Docker image.
 ```
 $ git clone https://github.com/justinn123/UMD-Prof-Summarizer.git
-$ pip install -r requirements.txt
+$ docker build -t your-image-name
 ```
 
 ### Create .env file
-You need to create a .env file to store the secret key for the Flask app and the Groq API key for langchain.\
+You need to create a .env file to store the secret key for the Flask app, the Groq API key for langchain, and a redis url for caching data.\
 To generate secret key:
+
 ```
 $ python
 >>> import os
 >>> os.urandom(12).hex()
 ```
-To get Groq API key, go to https://console.groq.com/keys
+To get Groq API key, go to https://console.groq.com/keys\
+To setup Redis with Upstash, follow instructions here: https://console.upstash.com/redis 
 
 After getting the required keys, add to your .env file:
 ```shell
 GROQ_API_KEY=your_groq_api_key
 SECRET_KEY=your_secret_key
+REDIS_URL="your_redis_url"
 ```
 ### Run the container
-
+Create a container from the image you built earlier
 ```
-$ docker run -p 5000:5000 your-app-name
+$ docker run -p 5000:5000 your-image-name
 ```
 Then go to: http://localhost:5000
-
-### Testing
-Enter a professor name to get summaries and insights of professor
-
-
