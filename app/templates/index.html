@@ -87,16 +87,16 @@
     <div class="mt-4 w-full max-w-xl p-4 rounded-xl bg-white shadow-md">
       <h2 class="text-xl font-bold mb-2">Professor: {{ summary.professor }}</h2>
       {% if summary.rating != -1 %}
-      <h3 class="text-xl font-bold mb-2">Rating: {{ summary.rating }}</h3>
+      <h3 class="text-xl font-bold mb-2">Average Rating: {{ summary.rating }}</h3>
       {% else %}
-      <h3 class="text-xl font-bold mb-2">Rating: Not Available</h3>
+      <h3 class="text-xl font-bold mb-2">Average Rating: Not Available</h3>
       {% endif %}
       <p class="mb-4">{{ summary.summary }}</p>
     </div>
     {% endif %}
 
     {% if error %}
-    <p class="mb-4 text-red-500">Could not find professor or course</p>
+    <p class="mb-4 text-red-500">{{ error }}</p>
     {% endif %}
 </body>
 
