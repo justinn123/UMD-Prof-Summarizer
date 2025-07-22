@@ -2,6 +2,8 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, field_validator
+from flask import current_app as app
+from app import cache
 import planetterp
 import dotenv
 
@@ -19,16 +21,6 @@ class ProfSummary(BaseModel):
         if v is None:
             return v
         return round(v, 2)
-
-# Format professor data for LLM input
-def format_professor_for_llm(prof_data: dict) -> str:
-    out = f"Professor: {prof_data['name']}\n"
-    out += f"Average Rating: {prof_data.get('average_rating', 'N/A')}\n"
-    out += f"Courses: {', '.join(prof_data.get('courses', []))}\n\n"
-    out += "Top Reviews:\n"
-    for review in prof_data.get('reviews', [])[::-1][:10]:
-        out += f"- {review['review']}\n"
-    return out
 
 # Set up the LLM using Groq
 llm = ChatGroq(model="llama3-8b-8192")
@@ -65,18 +57,46 @@ You must conclude with a clear recommendation: based on the reviews, should stud
 # Combine into a chain
 chain = prompt | llm | parser
 
-# Fetch PlanetTerp professor data
+# Fetch PlanetTerp professor data and return output
 def generate_summary(professor_name):
+    cache_key = f"summary:{professor_name}"
+    try:
+        cached = cache.get(cache_key)
+        if cached:
+            app.logger.info("Using cached data")
+            return cached
+    except Exception as e:
+        app.logger.error(f"Error on get: {e}")
+    
+    app.logger.info("Calling API directly")
+   
+    # Just run API again if redis fails to get cache
     prof_data = planetterp.professor(name=professor_name, reviews=True)
     if 'error' in prof_data:
         return None
-    elif prof_data['average_rating'] is None and not prof_data.get('reviews'):
+    result = get_results(prof_data)
+    try:
+        cache.set(cache_key, result)
+    except Exception as e:
+        app.logger.error(f"Error on SET: {e}")
+    return result
+    
+
+# Helper Functions
+# Get summary of professor
+def get_results(prof_data: dict) -> str:
+    if not prof_data['average_rating']:
         return ProfSummary(
             courses=prof_data.get('courses', []),
             professor=prof_data['name'],
             rating=-1,
-            summary="No reviews available."
+            summary="No reviews available"
         )
-    formatted = format_professor_for_llm(prof_data)
-    result = chain.invoke({"info_text": formatted})
+    out = f"Professor: {prof_data['name']}\n"
+    out += f"Average Rating: {prof_data.get('average_rating', 'N/A')}\n"
+    out += f"Courses: {', '.join(prof_data.get('courses', []))}\n\n"
+    out += "Top Reviews:\n"
+    for review in prof_data.get('reviews', [])[::-1][:10]:
+        out += f"- {review['review']}\n"
+    result = chain.invoke({"info_text": out})
     return result

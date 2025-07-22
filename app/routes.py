@@ -11,12 +11,12 @@ def home():
         professor_name = request.form.get('professor')
         if not professor_name:
             return render_template('index.html', error="Please enter a professor's name.")
-        
         try:
             summary = generate_summary(professor_name)
             if not summary:
                 return render_template('index.html', error="Professor not found or no reviews available.")
         except Exception as e:
+            app.logger.error(f"Error: {e}")
             return render_template('error.html')
     return render_template('index.html', summary=summary)
 
