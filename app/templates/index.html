@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="relative bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
   <div class="flex-grow flex flex-col items-center justify-center px-4">
     <!-- Header -->
     <h1 class="text-4xl font-bold mb-4 text-center">UMD Professor & Course Insight</h1>
@@ -101,8 +101,7 @@
     <p class="mb-4 text-red-500">{{ error }}</p>
     {% endif %}
   </div>
-  <p class="text-center w-full bg-gray-300 p-3 mt-4">&copy; <span id="year"></span> - Justin Nguyen</p>
-  <script>document.getElementById("year").textContent = new Date().getFullYear()</script>
+  {% include 'footer.html' %}
 </body>
 
 </html>
