@@ -13,6 +13,7 @@ dotenv.load_dotenv()
 class ProfSummary(BaseModel):
     # courses: list[str]
     professor: str
+    slug: str
     rating: float
     summary: str
     
@@ -60,27 +61,20 @@ chain = prompt | llm | parser
 # Fetch PlanetTerp professor data and return output
 def generate_summary(professor_name):
     cache_key = f"summary:{professor_name}"
-    try:
-        cached = cache.get(cache_key)
-        if cached:
-            app.logger.info("Using cached data")
-            return cached
-    except Exception as e:
-        app.logger.error(f"Error on get: {e}")
     
-    app.logger.info("Calling API directly")
-   
-    # Just run API again if redis fails to get cache
-    prof_data = planetterp.professor(name=professor_name, reviews=True)
-    if 'error' in prof_data:
+    cached = get_from_cache(cache_key)
+    
+    if cached:
+        return cached
+    
+    prof_data = use_api(professor_name)
+    if not prof_data:
         return None
-    result = get_results(prof_data)
-    try:
-        cache.set(cache_key, result)
-    except Exception as e:
-        app.logger.error(f"Error on SET: {e}")
-    return result
     
+    result = get_results(prof_data)
+    set_to_cache(cache_key, result)
+    
+    return result
 
 # Helper Functions
 # Get summary of professor
@@ -88,13 +82,36 @@ def get_results(prof_data: dict) -> str:
     if not prof_data['average_rating']:
         return ProfSummary(
             professor=prof_data['name'],
+            slug = prof_data['slug'],
             rating=-1,
-            summary="No reviews available"
+            summary="Nobody has reviewed this professor yet."
         )
     out = f"Professor: {prof_data['name']}\n"
+    out += f"Slug: {prof_data['slug']}\n"
     out += f"Average Rating: {prof_data.get('average_rating', 'N/A')}\n"
     out += "Top Reviews:\n"
     for review in prof_data.get('reviews', [])[::-1][:10]:
         out += f"- {review['review']}\n"
     result = chain.invoke({"info_text": out})
     return result
+
+def get_from_cache(key):
+    try:
+        cached = cache.get(key)
+        if cached:
+            app.logger.info("Using cached data")
+            return cached
+    except Exception as e:
+        app.logger.error(f"Error on get: {e}")
+    return None
+
+def set_to_cache(key, value):
+    try:
+        cache.set(key, value)
+    except Exception as e:
+        app.logger.error(f"Error on set: {e}")
+        
+def use_api(professor_name):
+    app.logger.info("Calling API directly")
+    data = planetterp.professor(name=professor_name, reviews=True)
+    return None if 'error' in data else data
