@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-gray-100 text-gray-900">
-  <div class="min-h-screen flex flex-col items-center justify-center px-4">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 pb-16">
     <!-- Header -->
     <h1 class="text-4xl font-bold mb-4 text-center">UMD Professor & Course Insight</h1>
     <p class="text-lg text-center mb-8 max-w-xl">
@@ -99,6 +99,8 @@
     {% if error %}
     <p class="mb-4 text-red-500">{{ error }}</p>
     {% endif %}
+    <p class="fixed bottom-0 text-center w-full bg-gray-300 p-3">&copy; <span id="year"></span> - Justin Nguyen</p>
+    <script>document.getElementById("year").textContent = new Date().getFullYear()</script>
 </body>
 
 </html>
