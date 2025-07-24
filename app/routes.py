@@ -38,3 +38,11 @@ def autocomplete():
             matches.append(prof)
 
     return jsonify(matches[:5])
+
+@app.route('/Error')
+def error():
+    return render_template('error.html', error="There was an error")
+
+@app.route('/InProgress')
+def progress():
+    return render_template('error.html', error="This feature is still in progress. Please check back later.")
