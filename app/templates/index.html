@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
   <meta charset="UTF-8" />
@@ -8,9 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
-  <div class="min-h-screen flex flex-col items-center justify-center px-4">
-    <!-- Header -->
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+  {% include 'header.html' %}
+
+  <div class="flex-grow flex flex-col items-center justify-center px-4 mt-4">
+    <!-- Title Text -->
     <h1 class="text-4xl font-bold mb-4 text-center">UMD Professor & Course Insight</h1>
     <p class="text-lg text-center mb-8 max-w-xl">
       Ask about UMD professors and their courses and get smart summaries — powered by LangChain and PlanetTerp data.
@@ -30,58 +32,58 @@
         Get Summary
       </button>
     </form>
-<script>
-  const input = document.getElementById('professor-input');
-  const suggestions = document.getElementById('suggestions');
+    <script>
+      const input = document.getElementById('professor-input');
+      const suggestions = document.getElementById('suggestions');
 
-  input.addEventListener('input', () => {
-    const query = input.value.trim();
+      input.addEventListener('input', () => {
+        const query = input.value.trim();
 
-    if (query.length < 2) {
-      suggestions.innerHTML = '';
-      suggestions.classList.add('hidden');
-      return;
-    }
-
-    fetch(`/autocomplete?q=${encodeURIComponent(query)}`)
-      .then(response => response.json())
-      .then(data => {
-        suggestions.innerHTML = '';
-
-        if (!data || data.length === 0) {
+        if (query.length < 2) {
+          suggestions.innerHTML = '';
           suggestions.classList.add('hidden');
           return;
         }
 
-        data.forEach(name => {
-          const li = document.createElement('li');
-          li.textContent = name;
-          li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+        fetch(`/autocomplete?q=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => {
+            suggestions.innerHTML = '';
 
-          li.addEventListener('click', () => {
-            input.value = name;
+            if (!data || data.length === 0) {
+              suggestions.classList.add('hidden');
+              return;
+            }
+
+            data.forEach(name => {
+              const li = document.createElement('li');
+              li.textContent = name;
+              li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+
+              li.addEventListener('click', () => {
+                input.value = name;
+                suggestions.innerHTML = '';
+                suggestions.classList.add('hidden');
+                input.focus();
+              });
+
+              suggestions.appendChild(li);
+            });
+
+            suggestions.classList.remove('hidden');
+          })
+          .catch(() => {
             suggestions.innerHTML = '';
             suggestions.classList.add('hidden');
-            input.focus();
           });
-
-          suggestions.appendChild(li);
-        });
-
-        suggestions.classList.remove('hidden');
-      })
-      .catch(() => {
-        suggestions.innerHTML = '';
-        suggestions.classList.add('hidden');
       });
-  });
 
-  document.addEventListener('click', (e) => {
-    if (!suggestions.contains(e.target) && e.target !== input) {
-      suggestions.classList.add('hidden');
-    }
-  });
-</script>
+      document.addEventListener('click', (e) => {
+        if (!suggestions.contains(e.target) && e.target !== input) {
+          suggestions.classList.add('hidden');
+        }
+      });
+    </script>
     <!-- Results Section (Still need to fix styling) -->
     {% if summary %}
     <div class="mt-4 w-full max-w-xl p-4 rounded-xl bg-white shadow-md">
@@ -91,7 +93,8 @@
       {% else %}
       <h3 class="text-lg font-bold mb-2">Average Rating: Not Available</h3>
       {% endif %}
-      <h3 class="text-lg font-normal mb-2 text-blue-600 hover:text-blue-800 hover:underline decoration-solid"><a href="https://planetterp.com/professor/{{summary.slug}}" target="_blank">View on Planet Terp</a></h3>
+      <h3 class="text-lg font-normal mb-2 text-blue-600 hover:text-blue-800 hover:underline decoration-solid"><a
+          href="https://planetterp.com/professor/{{summary.slug}}" target="_blank">View on Planet Terp</a></h3>
       <p class="mb-4">{{ summary.summary }}</p>
     </div>
     {% endif %}
@@ -99,6 +102,8 @@
     {% if error %}
     <p class="mb-4 text-red-500">{{ error }}</p>
     {% endif %}
+  </div>
+  {% include 'footer.html' %}
 </body>
 
 </html>
