@@ -39,10 +39,14 @@ def autocomplete():
 
     return jsonify(matches[:5])
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/Error')
 def error():
     return render_template('error.html', error="There was an error")
 
 @app.route('/InProgress')
 def progress():
-    return render_template('error.html', error="This feature is still in progress. Please check back later.")
+    return render_template('error.html', error="This page is still in progress. Please check back later.")
