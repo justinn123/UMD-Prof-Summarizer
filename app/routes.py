@@ -17,7 +17,7 @@ def home():
                 return render_template('index.html', error="Professor not found or no reviews available.")
         except Exception as e:
             app.logger.error(f"Error: {e}")
-            return render_template('error.html')
+            return render_template('error.html', error="There was an error processing your request. Please try again")
     return render_template('index.html', summary=summary)
 
 @app.route('/autocomplete')
