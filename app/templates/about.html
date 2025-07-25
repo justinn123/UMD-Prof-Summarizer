@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+    {% include 'header.html' %}
+    <div class="text-center sm:text-left flex flex-col items-left flex-grow px-20 mt-4 text-lg">
+        <div class="mt-4" id="about">
+            <h1 class="text-3xl font-bold mb-4">About Planet Twerp</h1>
+            <p class="mb-8 max-w-xl">
+                Planet Twerp is an unofficial extension of the website <a href="https://planetterp.com/" class="text-blue-600 hover:text-blue-800 hover:underline decoration-solid" target="_blank">Planet Terp</a> which provides information about
+                professors and courses at the University of Maryland. It uses LangChain and PlanetTerp data to provide
+                concise summaries based on the reviews scraped from the offical Planet Terp. It aims to help students
+                make informed decisions about their academic journey without having to read multiple reviews
+                (although it is still recommended).
+            </p>
+        </div>
+        <div class="mt-4" id="how-it-works">
+            <h1 class="text-3xl font-bold mb-4">How it Works</h1>
+            <p class="mb-8 max-w-xl">Currently, I am using Flask to run the actual site, with the backend
+                script using the <a href="https://planetterp.com/api/" class="text-blue-600 hover:text-blue-800 hover:underline decoration-solid" target="_blank">Planet Terp API</a> with
+                LangChain Groq (I don't want to pay for OpenAI) to generate summaries based on the reviews scraped. I do
+                want
+                to implement the <a href="#" target="_blank"
+                    class="text-blue-600 hover:text-blue-800 hover:underline decoration-solid">umd.io</a> API since it
+                has some features that the Planet Terp API does not have such as more detailed information about courses and sections.
+                Pairing the two APIs together would allow for a more comprehensive overview of the courses and professors at UMD.
+            </p>
+        </div>
+        <div class="mt-4" id="source-code">
+            <h1 class="text-3xl font-bold mb-4">Source Code</h1>
+            <p class="mb-8 max-w-xl">
+                I am currently the only one working on this project but I plan to turn it into an open source project.
+                Check it out on <a href="https://github.com/justinn123/UMD-Prof-Summarizer" target="_blank"
+                    class="text-blue-600 hover:text-blue-800 hover:underline decoration-solid">GitHub</a>. Feel free to
+                    contact me and report any issues you find. I am always looking for ways to improve the site and make it more useful for students.
+            </p>
+        </div>
+        <div class="mt-4" id="contact">
+            <h1 class="text-3xl font-bold mb-4">Contact Me</h1>
+            <p class="mb-8 max-w-xl">Feel free to send me an email at 
+                <a href="mailto:justinn123123123@gmail.com" class="text-blue-600 hover:text-blue-800 hover:underline decoration-solid">
+                justinn123123123@gmail.com</a></p>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+
+</html>
