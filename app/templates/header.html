@@ -36,4 +36,10 @@
     btn.addEventListener('click', () => {
         menu.classList.toggle('hidden');
     });
+
+    document.addEventListener('click', (event) => {
+        if (!btn.contains(event.target) && !menu.contains(event.target)) {
+            menu.classList.add('hidden');
+        }
+    });
 </script>
