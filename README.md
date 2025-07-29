@@ -29,7 +29,7 @@ $ python
 >>> import os
 >>> os.urandom(12).hex()
 ```
-To get Groq API key, go to https://console.groq.com/keys\
+To get Groq API key, go to https://console.groq.com/keys
 To setup Redis with Upstash, follow instructions here: https://console.upstash.com/redis 
 
 After getting the required keys, add to your .env file:
