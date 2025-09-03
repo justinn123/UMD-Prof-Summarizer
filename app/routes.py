@@ -2,6 +2,15 @@ import json
 from flask import jsonify, redirect, request, session, url_for, render_template, current_app as app
 from .get_data import generate_summary
 
+@app.before_request
+def maintenance_mode():
+    if request.endpoint != 'fixing':
+        return redirect(url_for('fixing'))
+    
+@app.route('/fixing')
+def fixing():
+    return render_template("fixing.html")
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     summary = None
