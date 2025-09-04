@@ -24,7 +24,7 @@ class ProfSummary(BaseModel):
         return round(v, 2)
 
 # Set up the LLM using Groq
-llm = ChatGroq(model="llama-3.1-8b-instant")
+llm = ChatGroq(model="llama-3.3-70b-versatile")
 
 # Define the output parser
 parser = PydanticOutputParser(pydantic_object=ProfSummary)
