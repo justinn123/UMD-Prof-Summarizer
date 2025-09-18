@@ -35,6 +35,7 @@
     <script>
       const input = document.getElementById('professor-input');
       const suggestions = document.getElementById('suggestions');
+      let currentIndex = -1; // Track which suggestion is highlighted
 
       input.addEventListener('input', () => {
         const query = input.value.trim();
@@ -49,16 +50,18 @@
           .then(response => response.json())
           .then(data => {
             suggestions.innerHTML = '';
+            currentIndex = -1;
 
             if (!data || data.length === 0) {
               suggestions.classList.add('hidden');
               return;
             }
 
-            data.forEach(name => {
+            data.forEach((name, idx) => {
               const li = document.createElement('li');
               li.textContent = name;
               li.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+              li.dataset.index = idx;
 
               li.addEventListener('click', () => {
                 input.value = name;
@@ -78,6 +81,38 @@
           });
       });
 
+      // Handle keyboard navigation
+      input.addEventListener('keydown', (e) => {
+        const items = suggestions.querySelectorAll('li');
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          currentIndex = (currentIndex + 1) % items.length;
+          updateHighlight(items);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateHighlight(items);
+        } else if (e.key === 'Enter') {
+          if (currentIndex >= 0 && currentIndex < items.length) {
+            e.preventDefault();
+            input.value = items[currentIndex].textContent;
+            suggestions.innerHTML = '';
+            suggestions.classList.add('hidden');
+          }
+        }
+      });
+
+      function updateHighlight(items) {
+        items.forEach(item => item.classList.remove('bg-gray-200'));
+        if (currentIndex >= 0 && currentIndex < items.length) {
+          items[currentIndex].classList.add('bg-gray-200');
+          items[currentIndex].scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      // Hide suggestions if clicking outside
       document.addEventListener('click', (e) => {
         if (!suggestions.contains(e.target) && e.target !== input) {
           suggestions.classList.add('hidden');

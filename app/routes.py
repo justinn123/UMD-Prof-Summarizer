@@ -2,15 +2,6 @@ import json
 from flask import jsonify, redirect, request, session, url_for, render_template, current_app as app
 from .get_data import generate_summary
 
-@app.before_request
-def maintenance_mode():
-    if request.endpoint != 'fixing':
-        return redirect(url_for('fixing'))
-    
-@app.route('/fixing')
-def fixing():
-    return render_template("fixing.html")
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
     summary = None
@@ -26,7 +17,7 @@ def home():
                 return render_template('index.html', error="Professor not found or no reviews available.")
         except Exception as e:
             app.logger.error(f"Error: {e}")
-            return render_template('error.html', error="There was an error processing your request. Please try again")
+            return render_template('error.html', error="There was an error getting professor data. Please try again later.")
     return render_template('index.html', summary=summary)
 
 @app.route('/autocomplete')
